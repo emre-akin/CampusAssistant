@@ -3,6 +3,7 @@ package com.emre.campusassistant;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
@@ -31,12 +32,15 @@ public class ScanFragment extends Fragment {
 
     //vars
     private ArrayList mDeviceNames = new ArrayList<>();
+    private ArrayList mDevices = new ArrayList<ScanResult>();
     boolean pressed = false;
 
     BluetoothAdapter btAdapter;
     BluetoothManager btManager;
     BluetoothLeScanner btScanner;
     public RecyclerViewAdapter recyclerViewAdapter;
+
+    Button scanButton;
 
     private final static int REQUEST_ENABLE_BT = 1;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
@@ -68,21 +72,21 @@ public class ScanFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
 
-        Button scanButton = v.findViewById(R.id.scanButton);
+        scanButton = v.findViewById(R.id.scanButton);
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*mDeviceNames.add("Test");
-                Log.d(TAG, "onClick: "+ mDeviceNames);
-                recyclerViewAdapter.notifyDataSetChanged();*/
+
                 if(pressed==false){
                     Log.d(TAG, "onClick: pressed false.");
                     startScanning();
+                    scanButton.setText("Scanning...");
                     pressed=true;
                 }else{
                     Log.d(TAG, "onClick: pressed true.");
                     stopScanning();
+                    scanButton.setText("Scan");
                     pressed=false;
                 }
             }
@@ -91,12 +95,22 @@ public class ScanFragment extends Fragment {
         return v;
 
     }
+
+    public void addDevice(ScanResult bluetoothDevice) {
+        Log.d(TAG, "addDevice: "+mDevices);
+        Log.d(TAG, "addDevice: R" + bluetoothDevice.getDevice().getAddress());
+        if(!mDevices.toString().contains(bluetoothDevice.getDevice().getAddress())) {
+            mDevices.add(bluetoothDevice);
+            mDeviceNames.add(bluetoothDevice.getDevice().getAddress());
+        }
+    }
+
     private ScanCallback leScanCallback = new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             //super.onScanResult(callbackType, result);
             Log.d(TAG, "onScanResult: Device found : "+result.getDevice().getAddress());
-            mDeviceNames.add(result.getDevice().getAddress());
+            //addDevice(result);
             recyclerViewAdapter.notifyDataSetChanged();
         }
     };
