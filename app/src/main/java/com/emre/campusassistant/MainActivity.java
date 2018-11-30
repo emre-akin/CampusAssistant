@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
             builder.show();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /**
+         * Device must have BLE in order to load this app
+         */
+        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(this, "No BLE Support", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener

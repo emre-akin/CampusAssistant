@@ -22,6 +22,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mDeviceNames = new ArrayList<>();
     private Context mContext;
 
+    //Declare interface
+    private OnItemClicked onClick;
+    //Make interface
+    public interface OnItemClicked {
+        void onItemClick(int position);
+    }
+
     public RecyclerViewAdapter(Context context, ArrayList<String> mDeviceNames) {
         this.mContext = context;
         this.mDeviceNames = mDeviceNames;
@@ -37,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         Log.d(TAG, "onBindViewHolder: called.");
 
         viewHolder.deviceName.setText(mDeviceNames.get(i));
@@ -46,7 +53,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on: " + mDeviceNames.get(i));
-                Toast.makeText(mContext, mDeviceNames.get(i), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, mDeviceNames.get(i), Toast.LENGTH_SHORT).show();
+                //Assign click to interface
+                onClick.onItemClick(i);
             }
         });
 
@@ -68,5 +77,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             deviceName = itemView.findViewById(R.id.deviceName);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
+    }
+    //Method to assign itemClick to interface
+    public void setOnClick(OnItemClicked onClick)
+    {
+        this.onClick=onClick;
     }
 }
