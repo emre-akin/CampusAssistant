@@ -22,8 +22,8 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: ");
                 //For faster testing
-                Intent i = new Intent(v.getContext(), MainActivity.class);
-                //Intent i = new Intent(v.getContext(), LoginActivity.class);
+                //Intent i = new Intent(v.getContext(), MainActivity.class);
+                Intent i = new Intent(v.getContext(), LoginActivity.class);
                 finish();
                 startActivity(i);
             }

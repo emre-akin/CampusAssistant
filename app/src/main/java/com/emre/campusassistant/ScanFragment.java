@@ -1,5 +1,5 @@
 package com.emre.campusassistant;
-// TODO: 29.11.2018 11.43 
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -34,10 +34,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItemClicked {
-
+    // TODO: 2.12.2018 Make a StringToASCII Converter
     private static final String TAG = "ScanFragment";
 
     private static final String DEVICE_NAME = "CampusAssistant";
@@ -49,8 +50,9 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     private SparseArray<BluetoothDevice> mDevices;
     private BluetoothGatt mConnectedGatt;
     boolean pressed = false;
+    static byte [] usernameByte;
     /**
-     * If there is a random error make Context static!
+     * If there is an error make Context static!
      */
     private Context context2 = null;
     UUID HEART_RATE_SERVICE_UUID = UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
@@ -145,6 +147,15 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
             }
         });
 
+        String username = getArguments().getString("username");
+        Log.d(TAG, "onCreateView: " + username);
+        usernameByte = new byte[username.length()];
+        for (int i = 0; i <username.length() ; i++) {
+            usernameByte[i] = (byte)username.charAt(i);
+            Log.d(TAG, "onCreateView: For: " + usernameByte[i]);
+        }
+        Log.d(TAG, "onCreateView: Username: " + Arrays.toString(usernameByte));
+
         return v;
 
     }
@@ -153,7 +164,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     public void onItemClick(int position) {
 
         BluetoothDevice mDevice = mDevices.get(mDevices.keyAt(position));
-        Toast.makeText(context2, "IT WORKS"+mDevices.keyAt(position), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context2, "Connecting to "+mDevice.getName(), Toast.LENGTH_SHORT).show();
         mConnectedGatt = mDevice.connectGatt(context2,true,gattCallback);
     }
 
@@ -193,9 +204,15 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     public void addDevice(BluetoothDevice bluetoothDevice) {
         Log.d(TAG, "addDevice:mDevices: "+mDevices);
         Log.d(TAG, "addDevice: Result Device: " + bluetoothDevice.getAddress());
-        if(!mDevices.toString().contains(bluetoothDevice.getAddress())) {
-            mDevices.put(bluetoothDevice.hashCode(), bluetoothDevice);
-            mDeviceNames.add(bluetoothDevice.getAddress());
+        if(bluetoothDevice.getName() != null) {
+            if (bluetoothDevice.getName().contains("Campus")) {
+                Log.d(TAG, "addDevice: Device name contains Campus");
+                if (!mDevices.toString().contains(bluetoothDevice.getAddress())) {
+                    mDevices.put(bluetoothDevice.hashCode(), bluetoothDevice);
+                    mDeviceNames.add(bluetoothDevice.getName());
+                    Log.d(TAG, "addDevice: " + bluetoothDevice.getName() + "added to the list");
+                }
+            }
         }
     }
 
@@ -203,7 +220,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             //super.onScanResult(callbackType, result);
-            Log.d(TAG, "onScanResult: Device found : "+result.getDevice().getAddress() + result.getDevice().getName());
+            Log.d(TAG, "onScanResult: Device found : " + result.getDevice().getAddress() + "Name: " + result.getDevice().getName());
             addDevice(result.getDevice());
             recyclerViewAdapter.notifyDataSetChanged();
         }
@@ -230,13 +247,6 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     }
 
     private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
-        
-
-        //State-Machine
-        private int mState = 0;
-
-        private void reset() { mState = 0; }
-        private void advance() { mState++; }
 
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -266,8 +276,6 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.d(TAG, "onServicesDiscovered: " +status);
             //mHandler.sendMessage(Message.obtain(null, MSG_PROCESS, "Enabling "));
-            reset();
-            //enableNextSensor(gatt);
 
             BluetoothGattCharacteristic characteristic = gatt.getService(HEART_RATE_SERVICE_UUID)
                     .getCharacteristic(HEART_RATE_MEASUREMENT_CHAR_UUID);
@@ -275,10 +283,14 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
 
             gatt.writeDescriptor(descriptor);*/
-            characteristic.setValue(new byte[]{65, 66});
+            //Testing Name
+            //new byte[]{69, 77, 82, 69}
+
+            characteristic.setValue(usernameByte);
             gatt.writeCharacteristic(characteristic);
             gatt.disconnect();
         }
+
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {

@@ -35,7 +35,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: ");
-                attemptLogin();
+                // TODO: 9.12.2018 Change this when the database is ready
+                //attemptLogin();
+                testLogin();
             }
         });
     }
@@ -87,5 +89,33 @@ public class LoginActivity extends AppCompatActivity {
     }
     private boolean isEmailValid(String email){
         return (email.contains("@") && email.contains("."));
+    }
+
+    private void testLogin(){
+        String email = emailView.getText().toString();
+        String password = passwordView.getText().toString();
+
+        Boolean cancel = false;
+        View focusView = null;
+
+        if(TextUtils.isEmpty(email)){
+            Log.d(TAG, "attemptLogin: Email is empty.");
+            focusView=emailView;
+            cancel=true;
+        }
+
+        if(cancel){
+            Log.d(TAG, "attemptLogin: Canceled");
+            focusView.requestFocus();
+        }else{
+            Log.d(TAG, "attemptLogin: "+email+password);
+            //Temporary Login
+                Log.d(TAG, "attemptLogin: Success");
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                i.putExtra("username",email);
+                finish();
+                startActivity(i);
+
+        }
     }
 }

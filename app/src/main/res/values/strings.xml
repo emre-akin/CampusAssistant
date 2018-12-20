@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">CampusAssistant</string>
     <string name="textviewWelcome">Welcome to Campus Assistance</string>
-    <string name="signUpButton">Create a Account</string>
+    <string name="signUpButton">Create an Account</string>
     <string name="signInButton">Login</string>
     <string name="emailText">E-mail</string>
     <string name="passwordText">Password</string>
     <string name="loginButton">Login</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Scan</string>
     <string name="title_notifications">Notifications</string>
+    <string name="homeTextView">Hello, </string>
+    <string name="scanButton">SCAN</string>
 </resources>
