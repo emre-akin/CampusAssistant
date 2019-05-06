@@ -1,7 +1,5 @@
 package com.emre.campusassistant;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -14,12 +12,9 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,7 +49,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     /**
      * If there is an error make Context static!
      */
-    private Context context2 = null;
+    private Context mContext = null;
     UUID HEART_RATE_SERVICE_UUID = UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
     UUID HEART_RATE_MEASUREMENT_CHAR_UUID = UUID.fromString("beb5483e-36e1-4688-b7f5-ea07361b26a8");
     UUID HEART_RATE_CONTROL_POINT_CHAR_UUID;
@@ -86,7 +81,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: created.");
         mDeviceNames.add("Teest");
-        context2=getActivity();
+        mContext =getActivity();
 
         //HEART_RATE_SERVICE_UUID = convertFromInteger(0x180D);
         //HEART_RATE_MEASUREMENT_CHAR_UUID = convertFromInteger(0x2A37);
@@ -122,7 +117,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
             @Override
             public void onClick(View v) {
 
-                if(pressed==false){
+                if(!pressed){
                     //Check for bluetooth
                     if (btAdapter != null && !btAdapter.isEnabled()) {
                         Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -164,8 +159,8 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     public void onItemClick(int position) {
 
         BluetoothDevice mDevice = mDevices.get(mDevices.keyAt(position));
-        Toast.makeText(context2, "Connecting to "+mDevice.getName(), Toast.LENGTH_SHORT).show();
-        mConnectedGatt = mDevice.connectGatt(context2,true,gattCallback);
+        Toast.makeText(mContext, "Connecting to "+mDevice.getName(), Toast.LENGTH_SHORT).show();
+        mConnectedGatt = mDevice.connectGatt(mContext,true,gattCallback);
     }
 
     @Override

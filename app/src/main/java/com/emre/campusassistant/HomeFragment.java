@@ -14,7 +14,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
-
+        // TODO: 20.12.2018 Create profile view when database is ready.
         TextView homeTextView = v.findViewById(R.id.homeTextView);
         String username = getArguments().getString("username");
         homeTextView.append(username);

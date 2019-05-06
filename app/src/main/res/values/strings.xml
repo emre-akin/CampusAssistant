@@ -3,7 +3,7 @@
     <string name="textviewWelcome">Welcome to Campus Assistance</string>
     <string name="signUpButton">Create an Account</string>
     <string name="signInButton">Login</string>
-    <string name="emailText">E-mail</string>
+    <string name="usernameText">Username</string>
     <string name="passwordText">Password</string>
     <string name="loginButton">Login</string>
     <string name="title_activity_main">MainActivity</string>

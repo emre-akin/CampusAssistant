@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
          */
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, "No BLE Support", Toast.LENGTH_SHORT).show();
-            finish();
+            //finish();
             return;
         }
     }

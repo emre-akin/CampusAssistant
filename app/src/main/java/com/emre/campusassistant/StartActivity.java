@@ -16,6 +16,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        checkLogin();
+        
         Button loginButton = (Button) findViewById(R.id.signInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,5 +30,9 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+    
+    private void checkLogin() {
+        // TODO: 20.12.2018 Add login check when Database is ready.
     }
 }
