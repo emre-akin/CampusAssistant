@@ -9,7 +9,12 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Scan</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Settings</string>
     <string name="homeTextView">Hello, </string>
     <string name="scanButton">SCAN</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="versiontextview">Campus Assistant v1.0</string>
+    <string name="logoutButton">Logout</string>
 </resources>

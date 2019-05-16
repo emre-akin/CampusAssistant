@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
@@ -15,9 +17,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         // TODO: 20.12.2018 Create profile view when database is ready.
-        TextView homeTextView = v.findViewById(R.id.homeTextView);
+
         String username = getArguments().getString("username");
-        homeTextView.append(username);
+        int studentID = getArguments().getInt("id");
+
+        WebView homeWebView = v.findViewById(R.id.homeWebView);
+        homeWebView.setWebViewClient(new WebViewClient());
+        homeWebView.getSettings().setJavaScriptEnabled(true);
+        homeWebView.loadUrl("http://emreiot.baykalsarioglu.com/home.php?id="+studentID);
+        homeWebView.setLayerType(homeWebView.LAYER_TYPE_HARDWARE, null);
 
         return v;
     }

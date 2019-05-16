@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             if(studentID != 0){
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 i.putExtra("username",username);
+                i.putExtra("id", studentID);
                 finish();
                 startActivity(i);
             }

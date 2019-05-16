@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment.setArguments(bundle);
                     break;
                 case R.id.navigation_notifications:
-                    fragment = new HomeFragment();
+                    fragment = new SettingsFragment();
                     fragment.setArguments(bundle);
                     break;
             }
