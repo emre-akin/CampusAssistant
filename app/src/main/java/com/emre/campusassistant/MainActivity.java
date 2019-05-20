@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bundle = getIntent().getExtras();
-        String username = bundle.getString("username");
-        Log.d(TAG, "onCreate: Username: " + username);
+        int usernameID = bundle.getInt("id");
+        Log.d(TAG, "onCreate: Username: " + usernameID);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(navListener);

@@ -45,7 +45,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     private SparseArray<BluetoothDevice> mDevices;
     private BluetoothGatt mConnectedGatt;
     boolean pressed = false;
-    static byte [] usernameByte;
+    static byte [] usernameIDByte;
     /**
      * If there is an error make Context static!
      */
@@ -142,14 +142,14 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
             }
         });
 
-        String username = getArguments().getString("username");
-        Log.d(TAG, "onCreateView: " + username);
-        usernameByte = new byte[username.length()];
-        for (int i = 0; i <username.length() ; i++) {
-            usernameByte[i] = (byte)username.charAt(i);
-            Log.d(TAG, "onCreateView: For: " + usernameByte[i]);
+        String usernameID = Integer.toString(getArguments().getInt("id"));
+        Log.d(TAG, "onCreateView: " + usernameID);
+        usernameIDByte = new byte[usernameID.length()];
+        for (int i = 0; i <usernameID.length() ; i++) {
+            usernameIDByte[i] = (byte)usernameID.charAt(i);
+            Log.d(TAG, "onCreateView: For: " + usernameIDByte[i]);
         }
-        Log.d(TAG, "onCreateView: Username: " + Arrays.toString(usernameByte));
+        Log.d(TAG, "onCreateView: usernameID: " + Arrays.toString(usernameIDByte));
 
         return v;
 
@@ -281,7 +281,7 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
             //Testing Name
             //new byte[]{69, 77, 82, 69}
 
-            characteristic.setValue(usernameByte);
+            characteristic.setValue(usernameIDByte);
             gatt.writeCharacteristic(characteristic);
             gatt.disconnect();
         }
