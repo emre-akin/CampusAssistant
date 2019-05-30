@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItemClicked {
-    // TODO: 2.12.2018 Make a StringToASCII Converter
+
     private static final String TAG = "ScanFragment";
 
     private static final String DEVICE_NAME = "CampusAssistant";
@@ -80,7 +80,6 @@ public class ScanFragment extends Fragment implements RecyclerViewAdapter.OnItem
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: created.");
-        mDeviceNames.add("Teest");
         mContext =getActivity();
 
         //HEART_RATE_SERVICE_UUID = convertFromInteger(0x180D);

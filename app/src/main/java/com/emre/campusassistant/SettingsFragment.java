@@ -15,7 +15,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings,container,false);
-        // TODO: 20.12.2018 Create profile view when database is ready.
 
         Button logout = v.findViewById(R.id.logoutButton);
         logout.setOnClickListener(new View.OnClickListener() {
